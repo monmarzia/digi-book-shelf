@@ -25,7 +25,9 @@
     </div>
     <div class="d-flex justify-content-end me-5 mb-2">
       <router-link :to="linkToDashboard">
-        <button class="btn bg-white rounded shadow-sm">Go To Dashboard</button>
+        <button class="btn bg-white rounded shadow-sm" @click.stop="goToDashboard">
+          Go To Dashboard
+        </button>
       </router-link>
     </div>
   </div>
@@ -48,25 +50,28 @@ export default {
     this.loadUsers();
   },
   methods: {
-    loadUsers() {
-      axios.get("api/users").then((response) => {
-        const users = response.data.data;
+    async loadUsers() {
+      try {
+        const res = await axios.get("api/users");
+        const users = res.data.data;
         this.users = users;
-      });
+      } catch (error) {
+        console.log("loadUsers: ", error.message);
+      }
     },
-    getUser(e) {
-      console.log("user: ", this.user);
+    async getUser(e) {
       const url = "api/user/" + e.target.value;
-      axios
-        .get(url)
-        .then((response) => {
-          this.user = response.data;
-        })
-        .catch((e) => console.log("error: ", e.message));
+      try {
+        const res = await axios.get(url);
+        this.user = res.data;
+      } catch (error) {
+        console.log("error: ", error.message);
+      }
     },
   },
   computed: {
     linkToDashboard() {
+      if (this.user.name === "") return "/";
       return "/dashboard/" + this.user.id;
     },
   },

@@ -3,17 +3,17 @@
     <div class="row justify-content-center">
       <div class="col-md-12">
         <h1 class="text-center m-5">{{ username }}'s Book Shelf</h1>
-        <div class="d-flex justify-content-between py-2">
-          <router-link to="/">
-            <button class="btn bg-white rounded shadow-sm">Logout</button>
-          </router-link>
+        <div class="d-flex justify-content-end m-2">
           <button
-            id="logout"
-            class="btn shadow border border-dark bg-success fw-bold text-white"
+            id="addBook"
+            class="btn shadow border border-dark bg-success fw-bold text-white me-2"
             @click="showModal = true"
           >
             Add book
           </button>
+          <router-link to="/">
+            <button class="btn bg-white rounded shadow-sm">Logout</button>
+          </router-link>
         </div>
         <transition name="modal">
           <b-s-modal v-if="showModal" @close="showModal = false">
