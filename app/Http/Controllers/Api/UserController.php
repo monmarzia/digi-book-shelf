@@ -14,26 +14,30 @@ class UserController extends Controller
     }
 
     public function getUser($id) {
-        $user = User::getUser($id);
-        
-        return $user;
+        return User::getUser($id);
     }
 
-    public static function getBooks($user_id) {
-        return User::getBooks($user_id);
+    public function getBooks($user_id) {
+        $books =  User::getBooks($user_id);
+        // dd($books);
+        return $books;
     }
 
-    public static function addBooks($request) {
-        User::addBooks($request->id, $request->book_id);
-        return User::getBooks($request->id);
+    public function addBooks(Request $request, $user_id) {
+        // dd($request->collect('ids'));
+        $book_ids = $request->collect('ids');
+        User::addBooks($user_id, $book_ids);
+        $books =  User::getBooks($user_id);
+        // dd($books);
+        return $books;
     }
 
-    public static function removeBook($request) {
+    public function removeBook($request) {
         User::removeBook($request->id, $request->book_id);
         return User::getBooks($request->id);
     }
 
-    public static function endBook($request){
+    public function endBook($request){
         User::endBook($request->id, $request->book_id);
         return User::getBooks($request->id);
     }

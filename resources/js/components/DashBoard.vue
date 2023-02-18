@@ -104,7 +104,6 @@ export default {
       }
     },
     async addUserBooks(selectedBooks) {
-      console.log("selectedBooks: ", selectedBooks);
       this.showModal = false;
       try {
         const res = await axios.post(`/api/user/${this.userId}/books/add`, {

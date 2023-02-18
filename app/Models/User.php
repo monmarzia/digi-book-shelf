@@ -51,10 +51,11 @@ class User extends Authenticatable
         return $user->books;
     }
 
-    public static function addBooks($user_id, $book_id) {
+    public static function addBooks($user_id, $book_ids) {
         $user = static::getUser($user_id);
-        if($user->books.contains($book_id)) return;
-        $user->attach($book_id);
+        $user->books()->attach($book_ids);
+        return $user->books;
+        // if($user->books.contains($book_ids)) return;
     }
 
     public static function removeBook($user_id, $book_id) {

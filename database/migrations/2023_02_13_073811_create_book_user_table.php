@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('book_user', function (Blueprint $table) {
-            $table->id();
-            // $table->primary(['user_id', 'book_id']);
+            // $table->id();
+            $table->primary(['user_id', 'book_id']);
             // $table->foreign('user_id');
             // $table->foreign('book_id');
             $table->foreignId('user_id')->constrained()->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('book_id')->constrained()->references('id')->on('books')->cascadeOnDelete();
-            $table->timestamp('added');
+            $table->timestamp('added')->nullable();
             $table->timestamp('deleted')->nullable();
             $table->timestamps();
         });
