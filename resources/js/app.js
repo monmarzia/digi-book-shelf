@@ -10,9 +10,4 @@ const router = createRouter({
 
 const app = createApp({});
 
-import FrontPage from './components/FrontPage.vue';
-app.component('front-page', FrontPage);
-
-
-
 app.use(router).mount('#app');

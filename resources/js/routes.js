@@ -5,6 +5,6 @@ import BookDetail from './components/BookDetail.vue';
 const routes = [
     {path: '/', component: LoginPage},
     {path: '/dashboard/:userId', component: DashBoard, props: true},
-    {path: '/book/detail', component: BookDetail},
+    {path: '/book/:bookId/details', component: BookDetail, props: true},
 ];
 export default routes;

@@ -42,9 +42,15 @@
                 <td class="py-1 text-start">{{ book.author }}</td>
                 <td class="py-1 text-start">{{ book.isbn }}</td>
                 <td class="py-1 text-start">
-                  <button type="button" class="btn btn-light border shadow-sm">
-                    Dettagli
-                  </button>
+                  <router-link :to="linkDetails">
+                    <button
+                      type="button"
+                      class="btn btn-light border shadow-sm"
+                      @click="goToDetails(book.id)"
+                    >
+                      Dettagli
+                    </button>
+                  </router-link>
                 </td>
                 <td class="py-1 text-center">
                   <input type="checkbox" name="reading" value="reading" />
@@ -90,6 +96,7 @@ export default {
       userBooks: [],
       username: "",
       showModal: false,
+      selBook: "",
     };
   },
   created() {
@@ -133,7 +140,14 @@ export default {
         this.userBooks = res.data;
       } catch (error) {}
     },
+    goToDetails(bookId) {
+      this.selBook = bookId;
+    },
   },
-  computed: {},
+  computed: {
+    linkDetails() {
+      return `/book/${this.selBook}/details`;
+    },
+  },
 };
 </script>
