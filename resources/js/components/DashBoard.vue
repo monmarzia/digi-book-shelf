@@ -146,7 +146,7 @@ export default {
   },
   computed: {
     linkDetails() {
-      return `/book/${this.selBook}/details`;
+      return `/book/${this.selBook}`;
     },
   },
 };

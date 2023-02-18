@@ -1,19 +1,32 @@
 <template>
   <div class="container d-flex justify-content-between">
     <div class="row mt-5">
-      <div class="col col-md-3 text-end mt-5">
-        <h4 class="mt-1">Details</h4>
-        <p>Author: {{ book.author }}</p>
-        <p>ISBN: {{ book.isbn }}</p>
-        <p>Added: {{ book.added }} gg/mm/yyyy</p>
-        <p>Readed {{ book.readed }}XX times</p>
+      <div class="col col-md-3 text-start mt-5">
+        <h4 class="mt-1 fw-semibold">Details</h4>
+        <p class="fw-semibold">
+          <span class="text-danger me-2">Author:</span>{{ book.author }}
+        </p>
+        <p class="fw-semibold">
+          <span class="text-danger me-2">ISBN: </span>{{ book.isbn }}
+        </p>
+        <p class="fw-semibold">
+          <span class="text-danger me-2">Added: </span>{{ book.added }}
+          gg/mm/yyyy
+        </p>
+        <p class="fw-semibold">
+          <span class="text-danger me-2">Readed </span>{{ book.readed }}
+          XX times
+        </p>
       </div>
       <div class="col">
-        <h2 class="mb-3 text-success">
+        <h2 class="mb-3 text-success fw-bold">
           {{ book.title }}
         </h2>
-        <h4>Excerpt</h4>
+        <h4 class="fw-semibold">Excerpt</h4>
         <p>{{ book.excerpt }}</p>
+        <button class="btn btn-light border shadow-sm" @click="$router.go(-1)">
+          Back to Dasboard
+        </button>
       </div>
     </div>
   </div>
@@ -26,7 +39,7 @@ export default {
   props: ["bookId"],
   data() {
     return {
-      book: null,
+      book: "",
     };
   },
   created() {
