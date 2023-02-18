@@ -4,7 +4,7 @@
       class="btn shadow border border-dark bg-success fw-bold text-white"
       @click="addBooks"
     >
-      Add book
+      Add books
     </button>
   </div>
 

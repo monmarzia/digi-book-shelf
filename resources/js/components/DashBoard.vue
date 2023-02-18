@@ -91,41 +91,40 @@ export default {
     };
   },
   created() {
-    this.getUsername(this.userId);
+    this.getUsername();
+    this.loadBooks();
   },
   methods: {
-    async getUsername(userId) {
+    async getUsername() {
       try {
-        const res = await axios.get(`/api/user/${userId}`);
+        const res = await axios.get(`/api/user/${this.userId}`);
         this.username = res.data.name;
       } catch (error) {
-        console.log("error: ", error.message);
+        console.log("getUsername error: ", error.message);
       }
     },
     async addUserBooks(selectedBooks) {
       console.log("selectedBooks: ", selectedBooks);
       this.showModal = false;
       try {
+        const res = await axios.post(`/api/user/${this.userId}/books/add`, {
+          ids: selectedBooks,
+        });
+        console.log("addUserBook: ", res.data);
       } catch (error) {
-        console.log("error: ", error.message);
+        console.log("addUserBook error: ", error.message);
       }
-      const res = await axios.post(`/api/user/${this.userId}/books/add`, {
-        [ids]: selectedBooks,
-      });
-      console.log("addUserBook: ", res.data);
     },
-    loadBooks(userId) {
-      const url = `/api/user/${userId}/books`;
+    async loadBooks() {
+      const url = `/api/user/${this.userId}/books`;
       //   console.log("url: ", url);
-
-      axios
-        .get(url)
-        .then(
-          (response) =>
-            (this.userBooks =
-              response.data) /* console.log("response: ", response.data) */
-        )
-        .catch((e) => console.log("error: ", e.message));
+      try {
+        const res = await axios.get(url);
+        this.userBooks = res.data; /*  */
+        console.log("response: ", res.data);
+      } catch (error) {
+        console.log("loadBooks error: ", error.message);
+      }
     },
   },
   computed: {},
