@@ -18,23 +18,17 @@ class UserController extends Controller
     }
 
     public function getBooks($user_id) {
-        $books =  User::getBooks($user_id);
-        // dd($books);
-        return $books;
+        return User::getBooks($user_id);
     }
 
     public function addBooks(Request $request, $user_id) {
-        // dd($request->collect('ids'));
         $book_ids = $request->collect('ids');
-        User::addBooks($user_id, $book_ids);
-        $books =  User::getBooks($user_id);
-        // dd($books);
-        return $books;
+        return User::addBooks($user_id, $book_ids);
     }
 
-    public function removeBook($request) {
-        User::removeBook($request->id, $request->book_id);
-        return User::getBooks($request->id);
+    public function removeBook(Request $request, $user_id) {
+        $book_id = $request->collect('bookId');
+        return User::removeBook($user_id, $book_id);
     }
 
     public function endBook($request){

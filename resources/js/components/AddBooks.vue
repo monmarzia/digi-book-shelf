@@ -38,7 +38,7 @@
 <script>
 import axios from "axios";
 export default {
-  emits: ["addUserBooks"],
+  emits: ["add-books"],
   props: ["userId"],
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     addBooks() {
-      this.$emit("add-user-books", this.selectedBooks);
+      this.$emit("add-books", this.selectedBooks);
     },
     loadBooks() {
       axios.get("/api/books").then((response) => {
