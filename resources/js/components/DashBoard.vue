@@ -26,50 +26,50 @@
         </transition>
         <table class="table table-striped shadow">
           <thead>
-            <th class="py-3">#</th>
-            <th class="py-3">Titolo</th>
-            <th class="py-3">Autore</th>
-            <th class="py-3">ISBN</th>
-            <th class="py-3">Dettagli</th>
-            <th class="py-3">Completato</th>
-            <th class="py-3">Elimina</th>
+            <th class="p-3">#</th>
+            <th class="p-3">Titolo</th>
+            <th class="p-3">Autore</th>
+            <th class="p-3">ISBN</th>
+            <th class="p-3">Dettagli</th>
+            <th class="p-3">Completato</th>
+            <th class="p-3">Elimina</th>
           </thead>
-          <!-- @foreach ($books as $book) -->
-          <template v-for="book in userBooks">
-            <tr class="">
-              <th>{{ book.id }}</th>
-              <td class="text-start">{{ book.title }}</td>
-              <td class="text-start">{{ book.author }}</td>
-              <td class="text-start">{{ book.isbn }}</td>
-              <td class="text-start">
-                <button type="button" class="btn btn-light border shadow-sm">
-                  Dettagli
-                </button>
-              </td>
-              <td class="text-center">
-                <input type="checkbox" name="reading" value="reading" />
-              </td>
-              <td class="text-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-trash"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                  />
-                </svg>
-              </td>
-            </tr>
-          </template>
-          <!-- @endforeach -->
+          <tbody class="pb-2">
+            <template v-for="book in userBooks">
+              <tr class="">
+                <th>{{ book.id }}</th>
+                <td class="py-1 text-start">{{ book.title }}</td>
+                <td class="py-1 text-start">{{ book.author }}</td>
+                <td class="py-1 text-start">{{ book.isbn }}</td>
+                <td class="py-1 text-start">
+                  <button type="button" class="btn btn-light border shadow-sm">
+                    Dettagli
+                  </button>
+                </td>
+                <td class="py-1 text-center">
+                  <input type="checkbox" name="reading" value="reading" />
+                </td>
+                <td class="py-1 text-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                    />
+                  </svg>
+                </td>
+              </tr>
+            </template>
+          </tbody>
         </table>
       </div>
     </div>

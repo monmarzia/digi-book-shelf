@@ -76,13 +76,4 @@ export default {
     },
   },
 };
-
-/**
- * Template:
- * - Impostare dropdown con i nomi degli users
- * - Impostare textfield con nome user selezionato
- * - Impostare textfield email con email dello user selezionato
- * - Impostare bottone "Go to Dashboard" in router-link /dashboard:
- *      va indagato come passaree lo user come props sul router-link
- */
 </script>
