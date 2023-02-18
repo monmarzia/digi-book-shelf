@@ -109,7 +109,7 @@ export default {
         const res = await axios.post(`/api/user/${this.userId}/books/add`, {
           ids: selectedBooks,
         });
-        console.log("addUserBook: ", res.data);
+        this.userBooks = res.data;
       } catch (error) {
         console.log("addUserBook error: ", error.message);
       }
