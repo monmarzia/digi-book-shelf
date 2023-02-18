@@ -8,7 +8,7 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js'], '/css', '/js')
     </head>
     <body class="antialiased">
-        <h1 class="text-center fs-1 fw-bold mt-5">Digi Book Shelf</h1>
+        <h1 class="text-center text-success fs-1 fw-bold mt-5">Digi Book Shelf</h1>
         <div id="app" class="">
             <router-view></router-view>            
         </div>            

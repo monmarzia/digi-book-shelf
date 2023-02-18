@@ -1,19 +1,20 @@
 <template>
-  <div class="container d-flex justify-content-between"></div>
-  <div class="row">
-    <div class="col">
-      <h4>Details</h4>
-      <p>Author: {{ book.author }}</p>
-      <p>ISBN: {{ book.isbn }}</p>
-      <p>Added: {{ book.added }}</p>
-      <p>Readed: {{ book.readed }}</p>
-    </div>
-    <div class="col">
-      <h2>
-        {{ book.title }}
-      </h2>
-      <h5>Excerpt</h5>
-      <p>{{ book.excerpt }}</p>
+  <div class="container d-flex justify-content-between">
+    <div class="row mt-5">
+      <div class="col col-md-3 text-end mt-5">
+        <h4 class="mt-1">Details</h4>
+        <p>Author: {{ book.author }}</p>
+        <p>ISBN: {{ book.isbn }}</p>
+        <p>Added: {{ book.added }} gg/mm/yyyy</p>
+        <p>Readed {{ book.readed }}XX times</p>
+      </div>
+      <div class="col">
+        <h2 class="mb-3 text-success">
+          {{ book.title }}
+        </h2>
+        <h4>Excerpt</h4>
+        <p>{{ book.excerpt }}</p>
+      </div>
     </div>
   </div>
 </template>
