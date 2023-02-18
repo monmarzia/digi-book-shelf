@@ -3,13 +3,16 @@
   <div class="shadow-sm w-50 bg-light border border-white mx-auto mt-3 text-center">
     <div class="d-flex justify-content-around">
       <label class="m-2 fs-5" for="selectUser">Select user</label>
-      <select class="w-50 m-2" name="selectUser">
-        <option value="users">Users</option>
-        <template v-for="user in users">
-          <option :value="user.id" @click="getUser($event)">
-            {{ user.name }}
-          </option>
-        </template>
+      <select
+        class="w-50 m-2"
+        name="selectUser"
+        v-model="selectedUser"
+        @change="getUser($event)"
+      >
+        <option disabled value="">Select a User</option>
+        <option v-for="user in users" :value="user.id">
+          {{ user.name }}
+        </option>
       </select>
     </div>
     <div class="d-flex justify-content-around">
@@ -38,6 +41,7 @@ export default {
         name: "",
         email: "",
       },
+      selectedUser: undefined,
     };
   },
   mounted() {
@@ -51,6 +55,7 @@ export default {
       });
     },
     getUser(e) {
+      console.log("user: ", this.user);
       const url = "api/user/" + e.target.value;
       axios
         .get(url)
