@@ -65,13 +65,6 @@ class User extends Authenticatable
         return $user->books;
     }
 
-    public static function endBook($user_id, $book_id) {
-        $user = static::getUser($user_id);
-        if(!$user->books.contains($book_id)) return;
-        $book = $user->books::find($book_id);
-        $book->reading += 1;
-        $book->save();
-    }
 
     public function books() {
         return $this->belongsToMany(Book::class)->withTimestamps();
