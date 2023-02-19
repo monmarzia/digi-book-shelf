@@ -53,7 +53,12 @@
                   </router-link>
                 </td>
                 <td class="py-1 text-center">
-                  <input type="checkbox" name="reading" value="reading" />
+                  <input
+                    type="checkbox"
+                    name="reading"
+                    :value="book.id"
+                    v-model="completed"
+                  />
                 </td>
                 <td class="py-1 text-center">
                   <button class="btn" @click="removeBook(book.id)">
@@ -97,11 +102,15 @@ export default {
       username: "",
       showModal: false,
       selBook: "",
+      completed: [],
     };
   },
   created() {
     this.getUsername();
     this.loadBooks();
+  },
+  beforeUnmount() {
+    this.updateBooks();
   },
   methods: {
     async getUsername() {
@@ -140,13 +149,21 @@ export default {
         this.userBooks = res.data;
       } catch (error) {}
     },
+    async updateBooks() {
+      const url = ``;
+      try {
+        const res = await axios.post();
+      } catch (error) {
+        console.log("updateBooks eror:", error.message);
+      }
+    },
     goToDetails(bookId) {
       this.selBook = bookId;
     },
   },
   computed: {
     linkDetails() {
-      return `/book/${this.selBook}`;
+      return `/dashboard/${this.userId}/${this.selBook}`;
     },
   },
 };

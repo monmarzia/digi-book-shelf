@@ -23,11 +23,11 @@ class Book extends Model
         return static::find($id);
     }
     
-    public static function endBook($book_id) {
-        $book = self::getBook($book_id)->reading += 1;
+    public static function updateReading($book_id) {
+        return self::getBook($book_id)->reading += 1;
     }
 
     public function users() {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps()->withPivot(['added', 'deleted']);;
     }
 }

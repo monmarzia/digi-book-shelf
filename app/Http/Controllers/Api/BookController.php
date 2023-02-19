@@ -13,7 +13,8 @@ class BookController extends Controller
         return BookResource::collection(Book::all());
     }
 
-    public function bookDetails($id) {
-        return Book::getBook($id);
+    public function updateReading($id) {
+        return Book::updateReading($id);
     }
+
 }

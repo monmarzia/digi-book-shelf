@@ -4,26 +4,26 @@
       <div class="col col-md-3 text-start mt-5">
         <h4 class="mt-1 fw-semibold">Details</h4>
         <p class="fw-semibold">
-          <span class="text-danger me-2">Author:</span>{{ book.author }}
+          <span class="text-danger me-2">Author:</span>{{ book.details.author }}
         </p>
         <p class="fw-semibold">
-          <span class="text-danger me-2">ISBN: </span>{{ book.isbn }}
+          <span class="text-danger me-2">ISBN: </span>{{ book.details.isbn }}
         </p>
         <p class="fw-semibold">
-          <span class="text-danger me-2">Added: </span>{{ book.added }}
-          gg/mm/yyyy
+          <span class="text-danger me-2">{{ book.added ? "Added" : "Removed" }}: </span
+          >{{ book.added ?? book.removed }}
         </p>
         <p class="fw-semibold">
-          <span class="text-danger me-2">Readed </span>{{ book.readed }}
-          XX times
+          <span class="text-danger me-2">Readed </span>{{ book.details.reading }}
+          times
         </p>
       </div>
       <div class="col">
         <h2 class="mb-3 text-success fw-bold">
-          {{ book.title }}
+          {{ book.details.title }}
         </h2>
         <h4 class="fw-semibold">Excerpt</h4>
-        <p>{{ book.excerpt }}</p>
+        <p>{{ book.details.excerpt }}</p>
         <button class="btn btn-light border shadow-sm" @click="$router.go(-1)">
           Back to Dasboard
         </button>
@@ -36,10 +36,13 @@
 import axios from "axios";
 
 export default {
-  props: ["bookId"],
+  props: ["userId", "bookId"],
   data() {
     return {
-      book: "",
+      book: {
+        details: "",
+        added: "",
+      },
     };
   },
   created() {
@@ -47,10 +50,11 @@ export default {
   },
   methods: {
     async getBook() {
-      const url = `/api/book/${this.bookId}/details`;
+      const url = `/api/user/${this.userId}/${this.bookId}`;
       try {
         const res = await axios.get(url);
         this.book = res.data;
+        console.log("getBook: ", this.book);
       } catch (error) {
         console.log("getBook error: ", error.message);
       }
