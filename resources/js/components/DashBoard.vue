@@ -154,7 +154,7 @@ export default {
       try {
         const res = await axios.post();
       } catch (error) {
-        console.log("updateBooks eror:", error.message);
+        console.log("updateBooks error:", error.message);
       }
     },
     goToDetails(bookId) {

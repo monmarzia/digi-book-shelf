@@ -34,8 +34,10 @@ class UserController extends Controller
         return User::removeBook($user_id, $book_id);
     }
 
-    public function endBook($request){
-        User::endBook($request->id, $request->book_id);
-        return User::getBooks($request->id);
+    public function updateBooks(Request $request, $user_id){
+        $book_ids = $request->collect('ids');
+        return User::updateBooks($user_id, $book_ids);
     }
+
+    
 }

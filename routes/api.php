@@ -29,5 +29,5 @@ Route::middleware(['cors'])->group(function () {
     Route::post('user/{id}/books/add', [UserController::class, 'addBooks']); // Aggiunta di un libro alla libreria con $id
     Route::post('user/{id}/books/remove', [UserController::class, 'removeBook']); // Impostazione "rimosso" a un libro della libreria con $id
     
-    Route::post('user/{id}/{book_id}', [BookController::class, 'endBook']); // Impostazione "letto" a un libro della libreria con $id
+    Route::post('user/{id}/{book_id}', [BookController::class, 'updateBooks']); // Impostazione "letto" a un libro della libreria con $id
 });

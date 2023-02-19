@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamps();
             $table->text('excerpt');
             $table->integer('reading')->default(0); 
-            $table->boolean('ended')->default(false);
         });
     }
 

@@ -52,7 +52,8 @@ class User extends Authenticatable
         return static::getUser($user_id)->books;
     }
 
-    public static function getBookDetails($user_id, $book_id) {
+    public static function getBookDetails($user_id, $book_id)
+    {
         $book = static::getUser($user_id)->books()->find($book_id);
         $bookDetails = [
             'details' => $book,
@@ -76,15 +77,25 @@ class User extends Authenticatable
     {
         $user = static::getUser($user_id);
         $book = $user->books()->find($book_id);
-        if(!$book){
+        if (!$book) {
             // throw error
             return $user->books;
         }
         $user->books()->detach($book_id);
-        $user->books()->attach($book_id, ['deleted' => now()]);  
+        $user->books()->attach($book_id, ['deleted' => now()]);
+        $user->books()->detach($book_id);
         return $user->books;
     }
 
+    public static function updateBooks($user_id, $book_ids)
+    {
+        $user = static::getUser($user_id);
+        foreach ($book_ids as $id) {
+            // $user->books()->find($id)->reading +=1;
+            $user->books()->where('id', $id)->increment('reading', 1);
+        }
+        return $user->books;
+    }
 
     public function books()
     {
