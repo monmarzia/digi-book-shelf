@@ -37,16 +37,16 @@
           <tbody class="pb-2">
             <template v-for="book in userBooks">
               <tr class="">
-                <th>{{ book.id }}</th>
-                <td class="py-1 text-start">{{ book.title }}</td>
-                <td class="py-1 text-start">{{ book.author }}</td>
-                <td class="py-1 text-start">{{ book.isbn }}</td>
+                <th>{{ book.details.id }}</th>
+                <td class="py-1 text-start">{{ book.details.title }}</td>
+                <td class="py-1 text-start">{{ book.details.author }}</td>
+                <td class="py-1 text-start">{{ book.details.isbn }}</td>
                 <td class="py-1 text-start">
                   <router-link :to="linkDetails">
                     <button
                       type="button"
                       class="btn btn-light border shadow-sm"
-                      @click="goToDetails(book.id)"
+                      @click="goToDetails(book.details.id)"
                     >
                       Dettagli
                     </button>
@@ -56,29 +56,36 @@
                   <input
                     type="checkbox"
                     name="reading"
-                    :value="book.id"
+                    :checked="book.ended"
+                    :value="book.details.id"
                     v-model="completed"
                   />
                 </td>
                 <td class="py-1 text-center">
-                  <button class="btn" @click="removeBook(book.id)">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-trash"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                      />
-                    </svg>
-                  </button>
+                  <template v-if="book.removed !== null">
+                    <span class="fw-bold text-danger">Removed</span>
+                  </template>
+
+                  <template v-else>
+                    <button class="btn" @click="removeBook(book.details.id)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-trash"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                        />
+                      </svg>
+                    </button>
+                  </template>
                 </td>
               </tr>
             </template>
@@ -98,7 +105,7 @@ export default {
   components: { BSModal, AddBooks },
   data() {
     return {
-      userBooks: [],
+      userBooks: {},
       username: "",
       showModal: false,
       selBook: "",
@@ -110,6 +117,8 @@ export default {
     this.loadBooks();
   },
   beforeUnmount() {
+    console.log("beforeUnmount: ", this.completed);
+
     this.updateBooks();
   },
   methods: {
@@ -138,6 +147,7 @@ export default {
       try {
         const res = await axios.get(url);
         this.userBooks = res.data;
+        console.log("loadBooks", this.userBooks);
       } catch (error) {
         console.log("loadBooks error: ", error.message);
       }
@@ -150,9 +160,9 @@ export default {
       } catch (error) {}
     },
     async updateBooks() {
-      const url = ``;
+      const url = `/api/user/${this.userId}/books`;
       try {
-        const res = await axios.post();
+        return await axios.post(url, { ids: this.completed });
       } catch (error) {
         console.log("updateBooks error:", error.message);
       }

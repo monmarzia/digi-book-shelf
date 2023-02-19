@@ -10,8 +10,9 @@
           <span class="text-danger me-2">ISBN: </span>{{ book.details.isbn }}
         </p>
         <p class="fw-semibold">
-          <span class="text-danger me-2">{{ book.added ? "Added" : "Removed" }}: </span
-          >{{ book.added ?? book.removed }}
+          <span class="text-danger me-2"
+            >{{ book.removed !== null ? "Removed" : "Added" }}: </span
+          >{{ book.removed ?? book.added }}
         </p>
         <p class="fw-semibold">
           <span class="text-danger me-2">Readed </span>{{ book.details.reading }}
@@ -40,7 +41,7 @@ export default {
   data() {
     return {
       book: {
-        details: "",
+        details: [],
         added: "",
       },
     };
@@ -54,7 +55,7 @@ export default {
       try {
         const res = await axios.get(url);
         this.book = res.data;
-        console.log("getBook: ", this.book);
+        console.log("getBook: ", res.data);
       } catch (error) {
         console.log("getBook error: ", error.message);
       }

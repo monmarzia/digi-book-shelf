@@ -49,28 +49,48 @@ class User extends Authenticatable
 
     public static function getBooks($user_id)
     {
-        return static::getUser($user_id)->books;
+        $books = static::getUser($user_id)->books ;
+        $booksWithParams = [];
+        foreach($books as $book) {
+            $booksWithParams [] = [
+                'details' => $book,
+                'added' => $book->pivot->added,
+                'removed' => $book->pivot->deleted,
+                'ended' => $book->pivot->ended,
+            ];
+        }
+        return $booksWithParams;
     }
 
     public static function getBookDetails($user_id, $book_id)
     {
         $book = static::getUser($user_id)->books()->find($book_id);
-        $bookDetails = [
+        $bookWithParams = [
             'details' => $book,
             'added' => $book->pivot->added,
-            'removed' => $book->pivot->deleted
+            'removed' => $book->pivot->deleted,
+            'ended' => $book->pivot->ended
         ];
-        return $bookDetails;
+        return $bookWithParams;
     }
 
     public static function addBooks($user_id, $book_ids)
     {
         $user = static::getUser($user_id);
         foreach ($book_ids as $id) {
-            $user->books()->detach($id);
-            $user->books()->attach($id, ['added' => now()]);
+            $user->books()->syncWithoutDetaching($id);
+            $user->books()->updateExistingPivot($id, ['added' => now()]);
         }
-        return $user->books;
+        $booksWithParams = [];
+        foreach($user->books as $book) {
+            $booksWithParams[] = [
+                'details' => $book,
+                'added' => $book->pivot->added,
+                'removed' => $book->pivot->deleted,
+                'ended' => $book->pivot->ended
+            ];
+        }
+        return $booksWithParams;
     }
 
     public static function removeBook($user_id, $book_id)
@@ -81,20 +101,36 @@ class User extends Authenticatable
             // throw error
             return $user->books;
         }
-        $user->books()->detach($book_id);
-        $user->books()->attach($book_id, ['deleted' => now()]);
-        $user->books()->detach($book_id);
-        return $user->books;
+        $user->books()->updateExistingPivot($book_id, ['deleted' => now()]);
+        $booksWithParams = [];
+        foreach($user->books as $book) {
+            $booksWithParams[] = [
+                'details' => $book,
+                'added' => $book->pivot->added,
+                'removed' => $book->pivot->deleted,
+                'ended' => $book->pivot->ended
+            ];
+        }
+        return $booksWithParams;
     }
 
     public static function updateBooks($user_id, $book_ids)
     {
         $user = static::getUser($user_id);
         foreach ($book_ids as $id) {
-            // $user->books()->find($id)->reading +=1;
             $user->books()->where('id', $id)->increment('reading', 1);
+            $user->books()->updateExistingPivot($id, ['ended' => true]);
         }
-        return $user->books;
+        $booksWithParams = [];
+        foreach($user->books as $book) {
+            $booksWithParams[] = [
+                'details' => $book,
+                'added' => $book->pivot->added,
+                'removed' => $book->pivot->deleted,
+                'ended' => $book->pivot->ended
+            ];
+        }
+        return $booksWithParams;
     }
 
     public function books()
