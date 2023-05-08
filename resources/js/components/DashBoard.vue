@@ -61,7 +61,7 @@
                                     </router-link>
                                 </td>
                                 <td class="py-1 text-center">
-                                    <input type="checkbox" name="reading" :value="book.ended" v-model="completed" />
+                                    <input type="checkbox" name="reading" :value="book.details.id" v-model="completedIds" />
                                 </td>
                                 <td class="py-1 text-center">
                                     <button class="btn" @click="removeBook(book.details.id)">
@@ -113,7 +113,7 @@ export default {
             showModal: false,
             showSaveModal: false,
             selBook: "",
-            completed: [],
+            completedIds: [],
         };
     },
     created() {
@@ -152,7 +152,7 @@ export default {
                 this.userBooks = res.data;
                 this.userBooksIds = this.userBooks.map(ub => ub.details.id);
                 this.userBooks.map((b) => b.ended > 0 ? b.ended = true : b.ended = false);
-                this.completed = this.userBooks.filter(ub => ub.ended).map(ub => ub.ended);
+                this.completedIds = this.userBooks.filter(b => b.ended).map(b => b.details.id);
             } catch (error) {
                 console.log("loadBooks error: ", error.message);
             }
@@ -167,8 +167,10 @@ export default {
         async updateBooks() {
             const url = `/api/user/${this.userId}/books`;
             try {
-                console.log('update: ', this.completed);
-                return await axios.post(url, { ids: this.completed });
+                // this.completeIds = this.userBooks.filter(b => b.ended).map(b => b.details.id);
+                console.log('completed: ', this.completedIds);
+
+                return await axios.post(url, { ids: this.completedIds });
             } catch (error) {
                 console.log("updateBooks error:", error.message);
             }
@@ -177,11 +179,12 @@ export default {
         goToDetails(bookId) {
             this.selBook = bookId;
         },
-        async setEnded(bookId) {
-            this.userBooks.map((b) => { if (b.details.id === bookId) b.ended = !b.ended });
-            this.completed = this.userBooks.filter(b => b.ended).map(b => b.details.id);
-            await this.updateBooks();
-        },
+        // async setEnded(bookId) {
+        //     this.userBooks.map((b) => { if (b.details.id === bookId) b.ended = !b.ended });
+        //     console.log('completed: ', this.completed);
+
+        //     await this.updateBooks();
+        // },
         async updateBookShelf() {
             await this.updateBooks();
             this.showSaveModal = false;
@@ -190,6 +193,17 @@ export default {
     computed: {
         linkDetails() {
             return `/dashboard/${this.userId}/${this.selBook}`;
+        },
+        completed: {
+            get() {
+                return this.userBooks.filter(ub => ub.ended).map(b => b.ended);
+            },
+            set(val) {
+                if (val) {
+
+                }
+                return val;
+            }
         }
     },
 };

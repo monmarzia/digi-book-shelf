@@ -106,6 +106,7 @@ class User extends Authenticatable
             $user->books()->where('id', $id)->increment('reading', 1);
             $user->books()->updateExistingPivot($id, ['ended' => true]);
         }
+        // dd($user->books->ended);
         return User::setBooksParams($user->books);
     }
 

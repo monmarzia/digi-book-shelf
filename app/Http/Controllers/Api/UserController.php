@@ -35,7 +35,6 @@ class UserController extends Controller
     }
 
     public function updateBooks(Request $request, $user_id){
-        // dd($request);
         $book_ids = $request->collect('ids');
         return User::updateBooks($user_id, $book_ids);
     }
