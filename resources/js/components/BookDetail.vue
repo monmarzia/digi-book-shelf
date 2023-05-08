@@ -10,9 +10,8 @@
           <span class="text-danger me-2">ISBN: </span>{{ book.details.isbn }}
         </p>
         <p class="fw-semibold">
-          <span class="text-danger me-2"
-            >{{ book.removed !== null ? "Removed" : "Added" }}: </span
-          >{{ book.removed ?? book.added }}
+          <span class="text-danger me-2">{{ book.removed !== null ? "Removed" : "Added" }}: </span>{{ book.removed ??
+            book.added }}
         </p>
         <p class="fw-semibold">
           <span class="text-danger me-2">Readed </span>{{ book.details.reading }}
@@ -40,10 +39,7 @@ export default {
   props: ["userId", "bookId"],
   data() {
     return {
-      book: {
-        details: [],
-        added: "",
-      },
+      book: {},
     };
   },
   created() {
@@ -55,12 +51,17 @@ export default {
       try {
         const res = await axios.get(url);
         this.book = res.data;
-        console.log("getBook: ", res.data);
+        console.log('book details: ', this.book);
       } catch (error) {
         console.log("getBook error: ", error.message);
       }
     },
   },
+  computed: {
+    bookData() {
+      return this.book;
+    }
+  }
 };
 </script>
 

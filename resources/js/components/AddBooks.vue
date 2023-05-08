@@ -39,14 +39,14 @@
 import axios from "axios";
 export default {
   emits: ["add-books"],
-  props: ["userId"],
+  props: ["userId", "userBooksIds"],
   data() {
     return {
       allBooks: {},
-      selectedBooks: [],
+      selectedBooks: this.userBooksIds
     };
   },
-  created() {
+  created() {    
     this.loadBooks();
   },
   methods: {
@@ -55,10 +55,12 @@ export default {
     },
     loadBooks() {
       axios.get("/api/books").then((response) => {
-        this.allBooks = response.data.data;
+        this.allBooks = response.data.data;        
       });
     },
   },
-  computed: {},
+  computed: {
+    
+  },
 };
 </script>

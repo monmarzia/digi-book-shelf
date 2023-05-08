@@ -47,9 +47,7 @@ class User extends Authenticatable
         return static::find($id);
     }
 
-    public static function getBooks($user_id)
-    {
-        $books = static::getUser($user_id)->books ;
+    private static function setBooksParams($books) {
         $booksWithParams = [];
         foreach($books as $book) {
             $booksWithParams [] = [
@@ -60,6 +58,11 @@ class User extends Authenticatable
             ];
         }
         return $booksWithParams;
+    }
+
+    public static function getBooks($user_id)
+    {
+        return User::setBooksParams(static::getUser($user_id)->books);
     }
 
     public static function getBookDetails($user_id, $book_id)
@@ -81,16 +84,7 @@ class User extends Authenticatable
             $user->books()->syncWithoutDetaching($id);
             $user->books()->updateExistingPivot($id, ['added' => now()]);
         }
-        $booksWithParams = [];
-        foreach($user->books as $book) {
-            $booksWithParams[] = [
-                'details' => $book,
-                'added' => $book->pivot->added,
-                'removed' => $book->pivot->deleted,
-                'ended' => $book->pivot->ended
-            ];
-        }
-        return $booksWithParams;
+        return User::setBooksParams($user->books);
     }
 
     public static function removeBook($user_id, $book_id)
@@ -99,19 +93,10 @@ class User extends Authenticatable
         $book = $user->books()->find($book_id);
         if (!$book) {
             // throw error
-            return $user->books;
+            return User::setBooksParams($user->books);
         }
         $user->books()->updateExistingPivot($book_id, ['deleted' => now()]);
-        $booksWithParams = [];
-        foreach($user->books as $book) {
-            $booksWithParams[] = [
-                'details' => $book,
-                'added' => $book->pivot->added,
-                'removed' => $book->pivot->deleted,
-                'ended' => $book->pivot->ended
-            ];
-        }
-        return $booksWithParams;
+        return User::setBooksParams($user->books);
     }
 
     public static function updateBooks($user_id, $book_ids)
@@ -121,20 +106,11 @@ class User extends Authenticatable
             $user->books()->where('id', $id)->increment('reading', 1);
             $user->books()->updateExistingPivot($id, ['ended' => true]);
         }
-        $booksWithParams = [];
-        foreach($user->books as $book) {
-            $booksWithParams[] = [
-                'details' => $book,
-                'added' => $book->pivot->added,
-                'removed' => $book->pivot->deleted,
-                'ended' => $book->pivot->ended
-            ];
-        }
-        return $booksWithParams;
+        return User::setBooksParams($user->books);
     }
 
     public function books()
     {
-        return $this->belongsToMany(Book::class)->withTimestamps()->withPivot(['added', 'deleted']);
+        return $this->belongsToMany(Book::class)->withTimestamps()->withPivot(['added', 'deleted', 'ended']);
     }
 }

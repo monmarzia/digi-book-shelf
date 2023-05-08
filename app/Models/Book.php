@@ -28,6 +28,6 @@ class Book extends Model
     }
 
     public function users() {
-        return $this->belongsToMany(User::class)->withTimestamps()->withPivot(['added', 'deleted']);;
+        return $this->belongsToMany(User::class)->withTimestamps()->withPivot(['added', 'deleted', 'ended']);;
     }
 }
